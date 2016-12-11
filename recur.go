@@ -8,7 +8,6 @@ import (
     "k8s.io/client-go/kubernetes"
     "k8s.io/client-go/pkg/api/v1"
     "k8s.io/client-go/tools/clientcmd"
-    "k8s.io/kubernetes/test/e2e_node/services"
 )
 
 var (
@@ -30,17 +29,17 @@ func main() {
 
     nspsaces, err:= clientset.Core().Namespaces().List(v1.ListOptions{})
     for _,nspace := range nspsaces.Items {
-        fmt.Printf("I have access to %s namespace in the cluster\n", nspace.ObjectMeta.Name)
+        fmt.Printf("Namespace %s \n", nspace.ObjectMeta.Name)
         pods, err := clientset.Core().Pods(nspace.ObjectMeta.Name).List(v1.ListOptions{})
         if err != nil {
             panic(err.Error())
         }
         for _,pod :=  range pods.Items{
-            fmt.Printf("\t Pod %s on %s \n", pod.ObjectMeta.Name,pod.Status.HostIP)
-            fmt.Printf("\t\t Annotations %s \n", pod.ObjectMeta.Annotations["kubernetes.io/created-by"])
-
+            if pod.Status.Phase == v1.PodRunning {
+                fmt.Printf("\t Pod %s on %s \n", pod.ObjectMeta.Name, pod.Status.HostIP)
+                fmt.Printf("\t\t Annotations %s ", pod.ObjectMeta.Annotations["kubernetes.io/created-by"])
+            }
         }
-
 
         services,err := clientset.Core().Services(nspace.ObjectMeta.Name).List(v1.ListOptions{})
         if err != nil {
