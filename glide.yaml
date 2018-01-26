@@ -1,0 +1,15 @@
+package: github.com/noelo/pod-watcher
+import:
+- package: github.com/openshift/api
+  subpackages:
+  - build/v1
+- package: github.com/openshift/client-go
+  subpackages:
+  - build/clientset/versioned/typed/build/v1
+- package: k8s.io/apimachinery
+  subpackages:
+  - pkg/apis/meta/v1
+- package: k8s.io/client-go
+  version: ^6.0.0
+  subpackages:
+  - tools/clientcmd

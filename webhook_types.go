@@ -1,4 +1,4 @@
-package webhooks
+package main
 
 import (
 	v1 "github.com/openshift/api/build/v1"
@@ -6,5 +6,5 @@ import (
 
 // WebhookProcessor used a base interface for different webhook publisher implementations
 type WebhookProcessor interface {
-	Publish(hook v1.BuildTriggerPolicy, uri v1.GitBuildSource)
+	Publish(hook v1.BuildTriggerPolicy, uri *v1.GitBuildSource)
 }

@@ -1,4 +1,4 @@
-package webhooks
+package main
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 
 type githubWebhook struct{}
 
-func (t githubWebhook) Publish(hook v1.BuildTriggerPolicy, uri v1.GitBuildSource) {
+func (t githubWebhook) Publish(hook v1.BuildTriggerPolicy, uri *v1.GitBuildSource) {
 
 	if hook.GitHubWebHook != nil {
 		fmt.Println("Github trigger found with secret " + hook.GitHubWebHook.Secret)
